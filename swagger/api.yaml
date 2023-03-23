@@ -1,0 +1,173 @@
+swagger : "2.0"
+info: 
+  title: Test API
+  description : Docs by Raj
+  version : 1.0
+  contact: 
+    email: xelpmoc@gmail.com
+  licence:
+    name : MIT
+    url : "https://mit"
+
+  servers:
+    -url: "localhost:3000/"
+
+schemes : [http, https]
+
+paths:
+  /string:
+    get: 
+      summary: Returns a string
+      description: It is just returing a string
+      responses: 
+        200:
+          description: Success
+          schema:
+            type: string
+            example: "a fake string value"
+        400:
+          description: User Error
+        500:
+          description: Internal Server Error
+#return an object
+  /user:
+    get: 
+      summary: Returns a single object
+      description: It is just returing a object
+      responses: 
+        200:
+          description: Success
+          schema:
+            type: object
+            properties:
+              id: 
+                type: integer
+              name:
+                type: string
+        400:
+          description: User Error
+        500:
+          description: Internal Server Error
+
+  #Returing Array of users
+
+  /users:
+    get:
+      summary: Returns array of users
+      description: return array
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items:
+              type : object
+              properties: 
+                id:
+                  type: integer
+                name:
+                  type: string
+
+  /users/{userId}:
+    get:
+      summary: Returns array of user
+      description: return array
+      parameters: 
+        - name : userId
+          in: path
+          required: true
+          schema: 
+            type: integer
+      responses:
+        200:
+          description: Success
+          schema:
+            type : object
+            properties: 
+              id:
+                type: integer
+              name:
+                type: string
+    
+  # #post data
+  # /create:
+  #   post:
+  #     summary: posting data
+  #     description: fhgdfh
+  #     produces:
+  #       - application/json
+  #     consumes:
+  #       - application/json
+  #     parameters:
+  #       - in: body
+  #         name: user
+  #         schema:
+  #           type: object
+  #           properties: 
+  #             id:
+  #               type: integer
+  #             name: 
+  #               type: string
+  #     responses:
+  #       200:
+  #         description: Success
+
+  #post data
+  /create:
+    post:
+      summary: posting data
+      description: fhgdfh
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: user
+          schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        200:
+          description: Success
+
+  #Queries
+  /usersQuery:
+    get:
+      parameters:
+        - in: query
+          name: id
+          type: integer
+          enum: [1,2,3]
+      responses:
+        200:
+          description: Sucess
+
+  #file upload
+  /upload:
+    post:
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name : file
+          type : file
+          required : true
+          description : File Upload
+        - in: formData
+          name : id
+          type : integer
+          description : id integer
+      responses:
+        200: 
+          description: OK
+
+components:
+  schemas:
+    User:
+      type: object
+      properties: 
+        id:
+          type: integer
+        name: 
+          type: string
+
